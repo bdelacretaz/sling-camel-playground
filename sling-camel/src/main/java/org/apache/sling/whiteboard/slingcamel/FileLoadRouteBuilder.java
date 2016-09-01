@@ -13,6 +13,6 @@ public class FileLoadRouteBuilder extends RouteBuilder {
   @Override
   public void configure() throws Exception {
     Processor loadFileProcessor = new FileLoadProcessor(fileLoadDirectory);
-    from("direct:loadFile").process(loadFileProcessor);
+    from("direct:loadFile").process(loadFileProcessor).to("direct:loadFileOutput");
   }
 }

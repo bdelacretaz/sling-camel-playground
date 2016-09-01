@@ -31,7 +31,7 @@ import java.util.List;
                 @Property(name = "maximumRedeliveryDelay", value = "60000"),
 
                 // File load route settings
-                @Property(name = "fileLoadDirectory", value = "/Users/imargela/files")
+                @Property(name = "fileLoadDirectory", value = "/tmp/sling-camel")
             })
 @References({
                 @Reference(name = "camelComponent", referenceInterface = ComponentResolver.class,
@@ -48,6 +48,7 @@ public class PlaygroundCamelRunner extends AbstractCamelRunner {
     List<RoutesBuilder> routesBuilders = new ArrayList<>();
     routesBuilders.add(new DefaultRouteBuilder());
     routesBuilders.add(new FileLoadRouteBuilder());
+    routesBuilders.add(new UppercaseRouteBuilder());
     return routesBuilders;
   }
 

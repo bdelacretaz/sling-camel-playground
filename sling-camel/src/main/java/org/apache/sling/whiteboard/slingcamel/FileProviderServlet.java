@@ -45,10 +45,13 @@ public class FileProviderServlet extends SlingSafeMethodsServlet {
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
              throws ServletException, IOException
     {
-        final String filename = request.getRequestPathInfo().getSuffix();
+        final String suffix = request.getRequestPathInfo().getSuffix();
+        final String [] parts = suffix.split(":");
+        final String filename = parts[0];
+        final String options = parts.length == 1 ? "" : parts[1];
 
         try {
-
+            // TODO how to set Camel headers to pass the options?
             FileProvider fileProvider = new ProxyBuilder(camelContext).endpoint("direct:loadFile").build(FileProvider.class);
             String fileContent = fileProvider.get(filename);
 
