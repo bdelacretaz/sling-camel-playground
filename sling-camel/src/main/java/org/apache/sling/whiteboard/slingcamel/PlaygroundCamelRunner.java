@@ -51,4 +51,5 @@ public class PlaygroundCamelRunner extends AbstractCamelRunner {
     return routesBuilders;
   }
 
+
 }

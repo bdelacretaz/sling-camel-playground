@@ -18,25 +18,44 @@
  */
 package org.apache.sling.whiteboard.slingcamel;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.ProxyBuilder;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.ReferencePolicyOption;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 @SuppressWarnings("serial")
 @SlingServlet(resourceTypes="camel/file", extensions="provider")
 public class FileProviderServlet extends SlingSafeMethodsServlet {
 
+    @Reference(referenceInterface = CamelContext.class, cardinality = ReferenceCardinality.MANDATORY_UNARY,
+               policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+    volatile CamelContext camelContext;
+
     @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) 
-             throws ServletException, IOException 
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
+             throws ServletException, IOException
     {
         final String filename = request.getRequestPathInfo().getSuffix();
-        throw new ServletException("would request " + filename);
+
+        try {
+
+            FileProvider fileProvider = new ProxyBuilder(camelContext).endpoint("direct:loadFile").build(FileProvider.class);
+            String fileContent = fileProvider.get(filename);
+
+            response.getOutputStream().println(fileContent);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
-    
+
 }
