@@ -1,0 +1,7 @@
+{
+    "jcr:primaryType" : "nt:unstructured",
+    "jcr:description" : "Root node for the Sling Camel playground",
+    "file" : {
+      "sling:resourceType" : "camel/file"
+    }
+}
