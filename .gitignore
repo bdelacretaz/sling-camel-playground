@@ -9,6 +9,6 @@ hs_err_pid*
 .classpath
 .project
 .settings
-sling
 *.iml
 .idea
+/sling
