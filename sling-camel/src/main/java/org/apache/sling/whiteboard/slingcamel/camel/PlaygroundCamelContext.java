@@ -1,6 +1,5 @@
 package org.apache.sling.whiteboard.slingcamel.camel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +52,8 @@ public class PlaygroundCamelContext extends AbstractCamelRunner {
       return Arrays.asList(new RouteBuilder [] {
           new DefaultRouteBuilder(),
           new FileLoadRouteBuilder(),
-          new ChatMessageRouteBuilder()
+          new ChatMessageRouteBuilder(),
+          new ServletOutputRouteBuilder()
       });
   }
 }

@@ -19,11 +19,13 @@
 package org.apache.sling.whiteboard.slingcamel.servlets;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.builder.ProxyBuilder;
+import org.apache.camel.Endpoint;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
@@ -32,7 +34,6 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.sling.whiteboard.slingcamel.ChatMessage;
 
 @SuppressWarnings("serial")
 @SlingServlet(resourceTypes="camel/chat", extensions="provider", methods="POST")
@@ -51,12 +52,14 @@ public class ChatProviderServlet extends SlingAllMethodsServlet {
              throws ServletException, IOException
     {
         final String channel = request.getRequestPathInfo().getSuffix();
-        final String name = request.getParameter("name");
-        final String message = request.getParameter("message");
 
         try {
-            final ChatMessage m = new ProxyBuilder(camelContext).endpoint("direct:addChatMessage").build(ChatMessage.class);
-            m.add(channel, name, message);
+            // TODO we might create a fluent helper for this 
+            final Endpoint e = camelContext.getEndpoint("direct:addChatMessage");
+            final Map<String, Object> headers = new HashMap<String, Object>();
+            headers.put("name", request.getParameter("name"));
+            headers.put("message", request.getParameter("message"));
+            camelContext.createProducerTemplate().requestBodyAndHeaders(e, channel, headers);
         } catch (Exception e) {
             throw new ServletException(e);
         }

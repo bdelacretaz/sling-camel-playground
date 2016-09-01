@@ -18,8 +18,14 @@
  */
 package org.apache.sling.whiteboard.slingcamel.servlets;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+
 import org.apache.camel.CamelContext;
-import org.apache.camel.builder.ProxyBuilder;
+import org.apache.camel.Endpoint;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
@@ -28,11 +34,6 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.apache.sling.whiteboard.slingcamel.FileProvider;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 
 @SuppressWarnings("serial")
 @SlingServlet(resourceTypes="camel/file", extensions="provider", methods="GET")
@@ -56,10 +57,12 @@ public class FileProviderServlet extends SlingSafeMethodsServlet {
         final String options = parts.length == 1 ? "" : parts[1];
 
         try {
-            FileProvider fileProvider = new ProxyBuilder(camelContext).endpoint("direct:loadFile").build(FileProvider.class);
-            String fileContent = fileProvider.get(filename, options);
-
-            response.getOutputStream().println(fileContent);
+            // TODO we might create a fluent helper for this 
+            final Endpoint e = camelContext.getEndpoint("direct:loadFile");
+            final Map<String, Object> headers = new HashMap<String, Object>();
+            headers.put("options", options);
+            headers.put("servletOutputWriter", response.getWriter());
+            camelContext.createProducerTemplate().requestBodyAndHeaders(e, filename, headers);
         } catch (Exception e) {
             throw new ServletException(e);
         }
