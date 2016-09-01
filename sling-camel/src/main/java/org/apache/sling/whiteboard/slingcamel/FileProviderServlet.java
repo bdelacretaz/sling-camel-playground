@@ -28,7 +28,7 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 
 @SuppressWarnings("serial")
-@SlingServlet(resourceTypes="camel/file", extensions="json")
+@SlingServlet(resourceTypes="camel/file", extensions="provider")
 public class FileProviderServlet extends SlingSafeMethodsServlet {
 
     @Override
