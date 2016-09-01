@@ -34,7 +34,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 @SuppressWarnings("serial")
-@SlingServlet(resourceTypes="camel/file", extensions="provider")
+@SlingServlet(resourceTypes="camel/file", extensions="provider", methods="GET")
 public class FileProviderServlet extends SlingSafeMethodsServlet {
 
     @Reference(
