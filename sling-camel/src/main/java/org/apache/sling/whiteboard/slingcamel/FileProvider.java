@@ -1,5 +1,8 @@
 package org.apache.sling.whiteboard.slingcamel;
 
+import org.apache.camel.Body;
+import org.apache.camel.Header;
+
 import java.nio.file.NoSuchFileException;
 
 /**
@@ -7,6 +10,6 @@ import java.nio.file.NoSuchFileException;
  */
 public interface FileProvider {
 
-  String get(String path) throws NoSuchFileException;
+  String get(@Body String path, @Header("options") String options) throws NoSuchFileException;
 
 }

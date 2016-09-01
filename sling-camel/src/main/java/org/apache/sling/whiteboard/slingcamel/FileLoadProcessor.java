@@ -21,5 +21,6 @@ public class FileLoadProcessor implements Processor {
   public void process(Exchange exchange) throws Exception {
     String filename = (String) exchange.getIn().getBody();
     exchange.getOut().setBody(new String(Files.readAllBytes(Paths.get(fileLoadDirectory, filename))));
+    exchange.getOut().setHeader("options", exchange.getIn().getHeader("options"));
   }
 }
