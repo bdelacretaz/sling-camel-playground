@@ -1,0 +1,6 @@
+# Sling provisioning model for the sling-camel experiments
+
+[feature name=sling]
+[artifacts]
+  org.apache.sling/org.apache.sling.launchpad/8/slingstart
+  org.apache.sling.whiteboard.sling-camel/sling-camel/0.0.1-SNAPSHOT
