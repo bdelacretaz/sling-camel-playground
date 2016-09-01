@@ -1,0 +1,9 @@
+[feature name=camel]
+
+[variables]
+  camel.version=2.17.0
+
+[artifacts]
+  org.apache.camel/camel-core/${camel.version}
+  org.apache.camel/camel-core-osgi/${camel.version}
+  org.apache.camel/camel-scr/${camel.version}
