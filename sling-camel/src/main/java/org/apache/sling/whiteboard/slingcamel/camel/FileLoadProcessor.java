@@ -1,4 +1,4 @@
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.camel;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 /**
  * @author Ionut-Maxim Margelatu (imargela@adobe.com)
  */
-public class FileLoadProcessor implements Processor {
+class FileLoadProcessor implements Processor {
 
   private final String fileLoadDirectory;
 

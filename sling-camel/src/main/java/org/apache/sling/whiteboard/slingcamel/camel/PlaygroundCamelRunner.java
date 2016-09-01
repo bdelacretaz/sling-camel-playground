@@ -1,4 +1,4 @@
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.camel;
 
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.scr.AbstractCamelRunner;

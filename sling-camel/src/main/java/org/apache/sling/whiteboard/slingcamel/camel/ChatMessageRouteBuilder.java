@@ -1,4 +1,4 @@
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.camel;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.StandardOpenOption.APPEND;
@@ -17,7 +17,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChatMessageRouteBuilder extends RouteBuilder {
+class ChatMessageRouteBuilder extends RouteBuilder {
 
   private Logger log = LoggerFactory.getLogger(getClass());
   

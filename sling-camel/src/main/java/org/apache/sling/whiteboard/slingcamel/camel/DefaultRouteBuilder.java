@@ -1,4 +1,4 @@
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.camel;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -6,7 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 /**
  * @author Ionut-Maxim Margelatu (imargela@adobe.com)
  */
-public class DefaultRouteBuilder extends RouteBuilder {
+class DefaultRouteBuilder extends RouteBuilder {
 
   // Default error handler
   private Integer maximumRedeliveries;

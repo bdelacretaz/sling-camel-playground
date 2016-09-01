@@ -1,4 +1,4 @@
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.camel;
 
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -6,7 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 /**
  * @author Ionut-Maxim Margelatu (imargela@adobe.com)
  */
-public class FileLoadRouteBuilder extends RouteBuilder {
+class FileLoadRouteBuilder extends RouteBuilder {
 
   private String fileLoadDirectory;
 

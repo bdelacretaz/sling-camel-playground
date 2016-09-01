@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.servlets;
 
 import java.io.IOException;
 
@@ -32,6 +32,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.whiteboard.slingcamel.ChatMessage;
 
 @SuppressWarnings("serial")
 @SlingServlet(resourceTypes="camel/chat", extensions="provider", methods="POST")

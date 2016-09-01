@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.sling.whiteboard.slingcamel;
+package org.apache.sling.whiteboard.slingcamel.servlets;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.ProxyBuilder;
@@ -28,6 +28,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.whiteboard.slingcamel.FileProvider;
 
 import java.io.IOException;
 
