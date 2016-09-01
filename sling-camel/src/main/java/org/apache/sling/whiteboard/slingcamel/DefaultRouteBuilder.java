@@ -22,8 +22,6 @@ public class DefaultRouteBuilder extends RouteBuilder {
                      .redeliveryDelay(redeliveryDelay)
                      .backOffMultiplier(backOffMultiplier)
                      .maximumRedeliveryDelay(maximumRedeliveryDelay));
-
-    getContext().getManagementStrategy().addEventNotifier(new CamelContextStartedEventHandler());
   }
 
 }

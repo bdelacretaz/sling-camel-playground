@@ -55,7 +55,6 @@ public class FileProviderServlet extends SlingSafeMethodsServlet {
         final String options = parts.length == 1 ? "" : parts[1];
 
         try {
-            // TODO how to set Camel headers to pass the options?
             FileProvider fileProvider = new ProxyBuilder(camelContext).endpoint("direct:loadFile").build(FileProvider.class);
             String fileContent = fileProvider.get(filename, options);
 
