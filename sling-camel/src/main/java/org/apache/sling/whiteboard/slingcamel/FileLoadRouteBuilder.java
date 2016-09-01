@@ -13,11 +13,13 @@ public class FileLoadRouteBuilder extends RouteBuilder {
   @Override
   public void configure() throws Exception {
     Processor loadFileProcessor = new FileLoadProcessor(fileLoadDirectory);
+    Processor stringToUppercaseProcessor = new StringToUppercaseProcessor();
+
     from("direct:loadFile")
         .process(loadFileProcessor)
         .choice()
           .when(header("options").isEqualTo("uppercase"))
-            .to("direct:loadFileOutput")
+            .process(stringToUppercaseProcessor)
           .otherwise()
             .log("No uppercase option specified")
         .endChoice();

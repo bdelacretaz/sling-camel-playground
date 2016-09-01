@@ -48,9 +48,7 @@ public class PlaygroundCamelRunner extends AbstractCamelRunner {
     List<RoutesBuilder> routesBuilders = new ArrayList<>();
     routesBuilders.add(new DefaultRouteBuilder());
     routesBuilders.add(new FileLoadRouteBuilder());
-    routesBuilders.add(new UppercaseRouteBuilder());
     return routesBuilders;
   }
-
 
 }
