@@ -23,6 +23,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.builder.ProxyBuilder;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
@@ -48,12 +49,13 @@ public class ChatProviderServlet extends SlingAllMethodsServlet {
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
              throws ServletException, IOException
     {
-        final String filename = request.getRequestPathInfo().getSuffix() + ".txt";
+        final String channel = request.getRequestPathInfo().getSuffix();
         final String name = request.getParameter("name");
         final String message = request.getParameter("message");
 
         try {
-            throw new ServletException("name=" + name + ", message=" + message);
+            final ChatMessage m = new ProxyBuilder(camelContext).endpoint("direct:addChatMessage").build(ChatMessage.class);
+            m.add(channel, name, message);
         } catch (Exception e) {
             throw new ServletException(e);
         }
