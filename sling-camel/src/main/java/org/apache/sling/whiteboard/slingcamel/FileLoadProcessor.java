@@ -19,7 +19,7 @@ public class FileLoadProcessor implements Processor {
 
   @Override
   public void process(Exchange exchange) throws Exception {
-    String filename = (String) exchange.getIn().getHeader("file");
+    String filename = (String) exchange.getIn().getBody();
     exchange.getOut().setBody(new String(Files.readAllBytes(Paths.get(fileLoadDirectory, filename))));
   }
 }
