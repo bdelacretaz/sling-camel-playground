@@ -8,7 +8,7 @@
     <artifactId>launchpad</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>slingstart</packaging>
-    <name>Sling adaptoTo() 2016 Demo Launchpad</name>
+    <name>Sling Camel Playground Launchpad</name>
     <build>
         <plugins>
             <plugin>
@@ -20,7 +20,20 @@
                     <createWebapp>false</createWebapp>
                 </configuration>
             </plugin>
-        </plugins>
+            <plugin>
+                 <artifactId>maven-clean-plugin</artifactId>
+                 <configuration>
+                     <filesets>
+                         <fileset>
+                             <directory>${basedir}</directory>
+                             <includes>
+                                 <include>sling/**</include>
+                             </includes>
+                         </fileset>
+                     </filesets>
+                 </configuration>
+             </plugin>
+           </plugins>
     </build>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
