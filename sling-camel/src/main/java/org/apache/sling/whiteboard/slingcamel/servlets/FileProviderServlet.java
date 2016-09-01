@@ -19,13 +19,10 @@
 package org.apache.sling.whiteboard.slingcamel.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Endpoint;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
@@ -34,6 +31,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.apache.sling.whiteboard.slingcamel.camel.CamelRoute;
 
 @SuppressWarnings("serial")
 @SlingServlet(resourceTypes="camel/file", extensions="provider", methods="GET")
@@ -57,12 +55,13 @@ public class FileProviderServlet extends SlingSafeMethodsServlet {
         final String options = parts.length == 1 ? "" : parts[1];
 
         try {
-            // TODO we might create a fluent helper for this 
-            final Endpoint e = camelContext.getEndpoint("direct:loadFile");
-            final Map<String, Object> headers = new HashMap<String, Object>();
-            headers.put("options", options);
-            headers.put("servletOutputWriter", response.getWriter());
-            camelContext.createProducerTemplate().requestBodyAndHeaders(e, filename, headers);
+            CamelRoute
+            .inContext(camelContext)
+            .fromEndpoint("direct:loadFile")
+            .withBody(filename)
+            .withHeaders("options", options)
+            .withHeaders("servletOutputWriter", response.getWriter())
+            .run();
         } catch (Exception e) {
             throw new ServletException(e);
         }

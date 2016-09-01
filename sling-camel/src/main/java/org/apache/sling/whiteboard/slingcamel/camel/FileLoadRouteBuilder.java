@@ -15,21 +15,15 @@ class FileLoadRouteBuilder extends RouteBuilder {
   
   private final static String [] HEADERS_TO_COPY = { "options", ServletOutputRouteBuilder.WRITER_HEADER };
 
-  private void copyHeaders(Exchange e) {
-      for(String h : HEADERS_TO_COPY) {
-          e.getOut().setHeader(h, e.getIn().getHeader(h));
-      }
-  }
-  
   private void processLoadFile(Exchange e) throws Exception {
       String filename = (String) e.getIn().getBody();
       e.getOut().setBody(new String(Files.readAllBytes(Paths.get(fileLoadDirectory, filename))));
-      copyHeaders(e);
+      CamelRoute.copyHeaders(e, HEADERS_TO_COPY);
   }
   
   private void processUppercase(Exchange e) {
       e.getOut().setBody(e.getIn().getBody().toString().toUpperCase());
-      copyHeaders(e);
+      CamelRoute.copyHeaders(e, HEADERS_TO_COPY);
   }
   
   @Override

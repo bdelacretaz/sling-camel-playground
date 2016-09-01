@@ -35,11 +35,15 @@ class ChatMessageRouteBuilder extends RouteBuilder {
                   p, 
                   Arrays.asList(new String [] { chatMsg }), 
                   UTF_8, APPEND, CREATE);
+          exchange.getOut().setBody(chatMsg + "\n");
+          CamelRoute.copyHeaders(exchange, ServletOutputRouteBuilder.WRITER_HEADER);
       }
   }
   
   @Override
   public void configure() throws Exception {
-      from("direct:addChatMessage").process(new ChatMessageProcessor());
+      from("direct:addChatMessage")
+      .process(new ChatMessageProcessor())
+      .to("direct:servletOutputWriter");
   }
 }
