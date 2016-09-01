@@ -37,8 +37,12 @@ import javax.servlet.ServletException;
 @SlingServlet(resourceTypes="camel/file", extensions="provider")
 public class FileProviderServlet extends SlingSafeMethodsServlet {
 
-    @Reference(referenceInterface = CamelContext.class, cardinality = ReferenceCardinality.MANDATORY_UNARY,
-               policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
+    @Reference(
+        referenceInterface = CamelContext.class,
+        target="(camel.context.symbolicname=org.apache.sling.whiteboard.sling-camel)",
+        cardinality = ReferenceCardinality.MANDATORY_UNARY,
+        policy = ReferencePolicy.DYNAMIC, 
+        policyOption = ReferencePolicyOption.GREEDY)
     volatile CamelContext camelContext;
 
     @Override
