@@ -18,8 +18,8 @@ import java.util.List;
 /**
  * @author Ionut-Maxim Margelatu (imargela@adobe.com)
  */
-@Component(label = PlaygroundCamelRunner.COMPONENT_LABEL,
-           description = PlaygroundCamelRunner.COMPONENT_DESCRIPTION, immediate = true, metatype = true)
+@Component(label = PlaygroundCamelContext.COMPONENT_LABEL,
+           description = PlaygroundCamelContext.COMPONENT_DESCRIPTION, immediate = true, metatype = true)
 @Properties({
                 @Property(name = "camelContextId", value = "sling-camel-playground"),
                 @Property(name = "active", value = "true"),
@@ -41,7 +41,7 @@ import java.util.List;
                            cardinality = ReferenceCardinality.MANDATORY_MULTIPLE, policy = ReferencePolicy.DYNAMIC,
                            policyOption = ReferencePolicyOption.GREEDY, bind = "gotCamelComponent", unbind = "lostCamelComponent")
             })
-public class PlaygroundCamelRunner extends AbstractCamelRunner {
+public class PlaygroundCamelContext extends AbstractCamelRunner {
 
   public static final String COMPONENT_LABEL = "org.apache.sling.whiteboard.slingcamel.PlaygroundCamelRunner";
   public static final String COMPONENT_DESCRIPTION = "Sling Camel Playground";
