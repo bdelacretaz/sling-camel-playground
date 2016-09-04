@@ -1,10 +1,13 @@
 {
-    "jcr:primaryType" : "nt:unstructured",
-    "jcr:description" : "Root node for the Sling Camel playground",
-    "file" : {
-      "sling:resourceType" : "camel/file"
+    "jcr:primaryType": "nt:unstructured",
+    "jcr:description": "Root node for the Sling Camel playground",
+    "file": {
+        "sling:resourceType": "camel/file"
     },
-    "chat" : {
-      "sling:resourceType" : "camel/chat"
+    "stream": {
+        "sling:resourceType": "camel/stream"
+    },
+    "chat": {
+        "sling:resourceType": "camel/chat"
     }
 }

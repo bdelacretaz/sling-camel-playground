@@ -18,10 +18,6 @@
  */
 package org.apache.sling.whiteboard.slingcamel.servlets;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.apache.camel.CamelContext;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
@@ -32,39 +28,43 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.whiteboard.slingcamel.camel.CamelRoute;
+import org.apache.sling.whiteboard.slingcamel.camel.ChatMessageRoute;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 
 @SuppressWarnings("serial")
-@SlingServlet(resourceTypes="camel/chat", extensions="provider", methods="POST")
+@SlingServlet(resourceTypes = "camel/chat", extensions = "provider", methods = "POST")
 public class ChatProviderServlet extends SlingAllMethodsServlet {
 
-    @Reference(
-        referenceInterface = CamelContext.class,
-        target="(camel.context.symbolicname=org.apache.sling.whiteboard.sling-camel)",
-        cardinality = ReferenceCardinality.MANDATORY_UNARY,
-        policy = ReferencePolicy.DYNAMIC, 
-        policyOption = ReferencePolicyOption.GREEDY)
-    volatile CamelContext camelContext;
+  @Reference(
+      referenceInterface = CamelContext.class,
+      target = "(camel.context.symbolicname=org.apache.sling.whiteboard.sling-camel)",
+      cardinality = ReferenceCardinality.MANDATORY_UNARY,
+      policy = ReferencePolicy.DYNAMIC,
+      policyOption = ReferencePolicyOption.GREEDY)
+  volatile CamelContext camelContext;
 
-    @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
-             throws ServletException, IOException
-    {
-        final String channel = request.getRequestPathInfo().getSuffix();
+  @Override
+  protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
+      throws ServletException, IOException {
+    final String channel = request.getRequestPathInfo().getSuffix();
 
-        try {
-            CamelRoute
-            .inContext(camelContext)
-            .fromEndpoint("direct:addChatMessage")
-            .withBody(channel)
-            .withHeaders(
-                "name", request.getParameter("name"),
-                "message", request.getParameter("message"),
-                "servletOutputWriter", response.getWriter()
-            )
-            .run();
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
+    try {
+      CamelRoute
+          .inContext(camelContext)
+          .fromEndpoint(ChatMessageRoute.INPUT_ENDPOINT)
+          .withHeaders(
+              ChatMessageRoute.HEADER_CHANNEL, channel,
+              ChatMessageRoute.HEADER_NAME, request.getParameter("name"),
+              ChatMessageRoute.HEADER_MESSAGE, request.getParameter("message"),
+              ChatMessageRoute.HEADER_STREAM, response.getOutputStream()
+          )
+          .run();
+    } catch (Exception e) {
+      throw new ServletException(e);
     }
+  }
 
 }

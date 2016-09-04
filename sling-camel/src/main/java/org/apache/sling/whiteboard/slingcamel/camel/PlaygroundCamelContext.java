@@ -1,8 +1,5 @@
 package org.apache.sling.whiteboard.slingcamel.camel;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.scr.AbstractCamelRunner;
@@ -15,6 +12,9 @@ import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.ReferencePolicyOption;
 import org.apache.felix.scr.annotations.References;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Ionut-Maxim Margelatu (imargela@adobe.com)
@@ -33,7 +33,7 @@ import org.apache.felix.scr.annotations.References;
 
                 // File load route settings
                 @Property(name = "fileLoadDirectory", value = "/tmp/sling-camel"),
-                
+
                 // Chat message settings
                 @Property(name = "chatFilesDirectory", value = "/tmp/sling-camel"),
             })
@@ -49,11 +49,11 @@ public class PlaygroundCamelContext extends AbstractCamelRunner {
 
   @Override
   protected List<RoutesBuilder> getRouteBuilders() {
-      return Arrays.asList(new RouteBuilder [] {
-          new DefaultRouteBuilder(),
-          new FileLoadRouteBuilder(),
-          new ChatMessageRouteBuilder(),
-          new ServletOutputRouteBuilder()
-      });
+    return Arrays.asList(new RouteBuilder[]{
+        new DefaultRouteBuilder(),
+        new FileLoadRoute(),
+        new ChatMessageRoute(),
+        new FileStreamingRoute()
+    });
   }
 }

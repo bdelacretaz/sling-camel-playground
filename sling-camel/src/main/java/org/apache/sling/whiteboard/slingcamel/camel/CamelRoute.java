@@ -18,18 +18,18 @@
  */
 package org.apache.sling.whiteboard.slingcamel.camel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /** Fluent helper to execute Camel routes */
 public class CamelRoute {
     private final CamelContext ctx;
     private Endpoint endpoint;
-    private final Map<String, Object> headers = new HashMap<String, Object>();
+    private final Map<String, Object> headers = new HashMap<>();
     private Object body;
     
     private CamelRoute(CamelContext ctx) {

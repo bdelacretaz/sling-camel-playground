@@ -18,10 +18,6 @@
  */
 package org.apache.sling.whiteboard.slingcamel.servlets;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-
 import org.apache.camel.CamelContext;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
@@ -32,39 +28,43 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.apache.sling.whiteboard.slingcamel.camel.CamelRoute;
+import org.apache.sling.whiteboard.slingcamel.camel.FileLoadRoute;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 
 @SuppressWarnings("serial")
-@SlingServlet(resourceTypes="camel/file", extensions="provider", methods="GET")
+@SlingServlet(resourceTypes = "camel/file", extensions = "provider", methods = "GET")
 public class FileProviderServlet extends SlingSafeMethodsServlet {
 
-    @Reference(
-        referenceInterface = CamelContext.class,
-        target="(camel.context.symbolicname=org.apache.sling.whiteboard.sling-camel)",
-        cardinality = ReferenceCardinality.MANDATORY_UNARY,
-        policy = ReferencePolicy.DYNAMIC, 
-        policyOption = ReferencePolicyOption.GREEDY)
-    volatile CamelContext camelContext;
+  @Reference(
+      referenceInterface = CamelContext.class,
+      target = "(camel.context.symbolicname=org.apache.sling.whiteboard.sling-camel)",
+      cardinality = ReferenceCardinality.MANDATORY_UNARY,
+      policy = ReferencePolicy.DYNAMIC,
+      policyOption = ReferencePolicyOption.GREEDY)
+  volatile CamelContext camelContext;
 
-    @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
-             throws ServletException, IOException
-    {
-        final String suffix = request.getRequestPathInfo().getSuffix();
-        final String [] parts = suffix.split(":");
-        final String filename = parts[0];
-        final String options = parts.length == 1 ? "" : parts[1];
+  @Override
+  protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
+      throws ServletException, IOException {
+    final String suffix = request.getRequestPathInfo().getSuffix();
+    final String[] parts = suffix.split(":");
+    final String filename = parts[0];
+    final String options = parts.length == 1 ? "" : parts[1];
 
-        try {
-            CamelRoute
-            .inContext(camelContext)
-            .fromEndpoint("direct:loadFile")
-            .withBody(filename)
-            .withHeaders("options", options)
-            .withHeaders("servletOutputWriter", response.getWriter())
-            .run();
-        } catch (Exception e) {
-            throw new ServletException(e);
-        }
+    try {
+      CamelRoute
+          .inContext(camelContext)
+          .fromEndpoint(FileLoadRoute.INPUT_ENDPOINT)
+          .withBody(filename)
+          .withHeaders(FileLoadRoute.HEADER_OPTIONS, options)
+          .withHeaders(FileLoadRoute.HEADER_STREAM, response.getOutputStream())
+          .run();
+    } catch (Exception e) {
+      throw new ServletException(e);
     }
+  }
 
 }
